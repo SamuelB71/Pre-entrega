@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Cabin:wght@600&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+main{
+    height: 100vh;
+    background-color: gray;
+}
+main h1{
+    font-size: 40px;
+    text-align: center;
+}
+
+.carta{
+    width: 15%;
+    height: 150px;
+    color: white;
+    background-color: rgb(20, 20, 20);
+    border: 2px solid black;
+    padding: 5px;
+    margin: 5px;
+    font-family: 'Cabin', sans-serif; 
+    float: left;
+}
+
