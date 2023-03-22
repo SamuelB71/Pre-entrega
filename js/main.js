@@ -1,24 +1,31 @@
-let vidaPlayer = 100
-let vidaDelBaron = 150
+
+const personajes = [{nombre: "Cid", vida: 120, enegia: 0, daño: 10, probabilidadDeAtaque: 75},
+                    {nombre: "Ultra" , vida: 100, enegia: 0, daño: 10, probabilidadDeAtaque: 80},
+                    {nombre: "Beta", vida: 100, enegia: 0, daño: 15, probabilidadDeAtaque: 75}]
+
+
+const baron = {nombre: "baron", vida: 150, enegia: 0, daño: 10, probabilidadDeAtaque: 60}
 
 console.log("Bienvenido a La Lucha contra el Baron")
-let confimacion = (confirm("¡¡¡Bienvenido a La Lucha contra el Baron ¿Desea inicia el juego?!!!"))
-
-let personaje = ""
+let confimacion = (confirm("¡¡¡Bienvenido a Ataque al Baron ¿Desea inicia el juego?!!!"))
+let i = 0
 
 if (confimacion === true) {
     while (confimacion === true) {
-        personaje = prompt("Para seleccionar introduzca el nombre correspondiente a cada personje Cid, Ultra, Beta").toLowerCase()
-        if (personaje === "cid" ||personaje === "ultra" || personaje === "beta"){
-            switch (personaje) {
+        seletorPersonaje = prompt("Para seleccionar introduzca el nombre correspondiente a cada personje Cid, Ultra, Beta").toLowerCase().trim()
+        if (seletorPersonaje === "cid" ||seletorPersonaje === "ultra" || seletorPersonaje === "beta"){
+            switch (seletorPersonaje) {
                 case "cid":
                     alert("Has seleccionado a Cid")
+                    i = 0
                     break;
                 case "ultra":
                     alert("Has seleccionado a Ultra")
+                    i = 1
                     break;
                 case "beta":
                     alert("Has seleccionado a Beta")
+                    i = 2
                     break;
                 default:
                     alert("No existe ese personaje")
@@ -30,75 +37,48 @@ if (confimacion === true) {
         }
     }
     while(true){
-        ataque(personaje)
-        ataqueDelBaron()
-        console.log("vida altual del enemigo:",vidaDelBaron)
-        console.log("vida altual del jugador:", vidaPlayer )
-        if(vidaDelBaron <= 0 ){
+        ataquePersonaje(personajes)
+        ataqueBaron(baron)
+        console.log("vida altual de",personajes[i].nombre,":",personajes[i].vida)
+        console.log("vida altual del Baron",baron.vida)
+        if(baron.vida <= 0 ){
             alert("¡¡¡GANASTE IMPEDISTE QUE EL BARON SE COMIERA EL PLANETA!!!")
             alert("Gracias por jugar")
             break
         }
-        else if ( vidaPlayer <= 0){
+        else if ( personajes[i].vida <= 0){
             alert("Perdiste el Baron se comio a todo el planeta")
             alert("Gracias por jugar")
             break
-    }
+    }//cambia por sistema por turno con decisiones
 }}
 else {
-    console.log("")//mostrar un mensaje 
+    console.log("")
 }
-function probabilidad(personaje) {
+function ataquePersonaje(personajes){
     let n100 = Math.floor(Math.random() * 100 + 1)
     let n2 = 0
-    if(personaje === "ultra"){
-        if (n100 <= 80) {
-            n2 = 1
-        }
-        else{
-            n2 = 2
-        }
+    if (n100 <= personajes[i].probabilidadDeAtaque) {
+        n2 = 1
     }
     else{
-        if (n100 <= 75) {
-            n2 = 1
-        }
-        else{
-            n2 = 2
-        }
+        n2 = 2
     }
-    return n2
+    if(n2 === 1){
+        console.log("ataque de",personajes[i].nombre ,"exitoso")
+        baron.vida = baron.vida - personajes[i].daño
+        return baron.vida
+    }
+    else{
+        console.log("ataque de",personajes[i].nombre , "fallo")
+    }
 }
 
 
-function ataque(personaje){
-    let probabilidadDeAtaque = probabilidad()
-    if (personaje === "beta"){
-        if(probabilidadDeAtaque === 1){
-            console.log("ataque del jugador exitoso")
-            vidaDelBaron = vidaDelBaron - 15
-            return vidaDelBaron
-        }
-        else{
-            console.log("fallo el ataque del jugador")
-        }
-    }else{
-        if(probabilidadDeAtaque === 1){
-            console.log("ataque del jugador exitoso")
-            vidaDelBaron = vidaDelBaron - 10
-            return vidaDelBaron
-        }
-        else{
-            console.log("fallo el ataque del jugador")
-        }
-    }
-    
-}
-
-function ataqueDelBaron(){
+function ataqueBaron(baron){
     let n100 = Math.floor(Math.random() * 100 + 1)
     let n2 = 0
-    if (n100 <= 60) {
+    if (n100 <= baron.probabilidadDeAtaque) {
         n2 = 1
     }
     else{
@@ -106,10 +86,14 @@ function ataqueDelBaron(){
     }
     if(n2 === 1){
         console.log('ataque del "Baron" exitoso')
-        vidaPlayer = vidaPlayer - 10
-        return vidaPlayer
+        personajes[i].vida = personajes[i].vida - baron.daño
+        return personajes[i].vida
     }
     else{
         console.log('el ataque del "Baron" fallo')
     }
 }
+
+// agregar sistema de habilidades con uso de enegia 
+// agregar tienda/tabla de subida de habilidades con filtros 
+
